@@ -6,12 +6,13 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", branch = "main" },
 	{ src = "https://github.com/catppuccin/nvim", branch = "main" },
 })
-vim.cmd.colorscheme("catppuccin-macchiato")
+vim.cmd.colorscheme("catppuccin")
 require("plugins.neotree")
 require("plugins.format")
 require("plugins.telescope")
 require("plugins.completion")
 require("plugins.mini")
+require("plugins.obsidian")
 require("mason").setup({})
 vim.lsp.config("lua_ls", {
 	settings = {
@@ -38,7 +39,7 @@ vim.lsp.config("lua_ls", {
 	},
 })
 
-vim.lsp.enable({ "lua_ls", "clangd" })
+vim.lsp.enable({ "lua_ls", "clangd", "ts_ls" })
 require("nvim-treesitter")
 	.install({
 		"lua",
@@ -48,10 +49,11 @@ require("nvim-treesitter")
 		"cpp",
 		"html",
 		"typescript",
-		"typescriptreact",
+		"tsx",
 		"javascriptreact",
 		"javascript",
 		"python",
+		"markdown",
 	})
 	:wait(300000)
 vim.api.nvim_create_autocmd({ "FileType" }, {

@@ -18,7 +18,7 @@ vim.opt.foldlevelstart = 99
 vim.o.cmdheight = 0
 vim.o.showcmd = true
 vim.o.winborder = "single"
-
+vim.opt.shortmess:append("I")
 --keymaps
 local map = vim.keymap.set
 map({ "n", "t" }, "<C-h>", [[<C-\><C-n><C-w>h]], { noremap = true, silent = true })
