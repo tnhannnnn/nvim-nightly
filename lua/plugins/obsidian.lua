@@ -1,3 +1,19 @@
+local function set_rm_checkbox_hl()
+	vim.api.nvim_set_hl(0, "RMCheckboxTodo", { fg = "#89b4fa" })
+	vim.api.nvim_set_hl(0, "RMCheckboxDeferred", { fg = "#f9e2af" })
+	vim.api.nvim_set_hl(0, "RMCheckboxImportant", { fg = "#f38ba8" })
+	vim.api.nvim_set_hl(0, "RMCheckboxProgress", { fg = "#94e2d5" })
+	vim.api.nvim_set_hl(0, "RMCheckboxDone", { fg = "#a6e3a1" })
+end
+
+-- set ngay lần đầu
+set_rm_checkbox_hl()
+
+-- set lại khi đổi theme
+vim.api.nvim_create_autocmd("ColorScheme", {
+	callback = set_rm_checkbox_hl,
+})
+
 vim.pack.add({
 	{
 		src = "https://github.com/obsidian-nvim/obsidian.nvim",
@@ -7,7 +23,49 @@ vim.pack.add({
 		src = "https://github.com/MeanderingProgrammer/render-markdown.nvim",
 	},
 })
-require("render-markdown").setup()
+
+require("render-markdown").setup({
+	checkbox = {
+		enabled = true,
+
+		unchecked = {
+			raw = "[ ]",
+			rendered = "󰄱 ",
+			highlight = "RMCheckboxTodo",
+			scope_highlight = nil,
+		},
+
+		checked = {
+			raw = "[x]",
+			rendered = " ",
+			highlight = "RMCheckboxDone",
+			scope_highlight = nil,
+		},
+
+		custom = {
+			tilde = {
+				raw = "[~]",
+				rendered = "󰰱 ",
+				highlight = "RMCheckboxDeferred",
+				scope_highlight = nil,
+			},
+
+			important = {
+				raw = "[!]",
+				rendered = " ",
+				highlight = "RMCheckboxImportant",
+				scope_highlight = nil,
+			},
+
+			right_arrow = {
+				raw = "[>]",
+				rendered = " ",
+				highlight = "RMCheckboxProgress",
+				scope_highlight = nil,
+			},
+		},
+	},
+})
 require("obsidian").setup({
 	legacy_commands = false,
 	workspaces = {
@@ -25,7 +83,7 @@ require("obsidian").setup({
 	},
 
 	ui = {
-		enable = true,
+		enable = false,
 		ignore_conceal_warn = true,
 	},
 
@@ -48,7 +106,6 @@ require("obsidian").setup({
 
 		return os.date("%Y%m%d%H%M%S")
 	end,
-
 	daily_notes = {
 		folder = "daily",
 		date_format = "%Y-%m-%d",
@@ -64,4 +121,5 @@ map("n", "<leader>on", "<cmd>Obsidian new<CR>", { desc = "New note" })
 map("n", "<leader>ot", "<cmd>Obsidian today<CR>", { desc = "Today" })
 map("n", "<leader>od", "<cmd>Obsidian dailies<CR>", { desc = "Daily" })
 map("n", "<leader>oo", "<cmd>Obsidian quick_switch<CR>", { desc = "Open note" })
-map("n", "<leader>gf", "<cmd>Obsidian follow_link<CR>", { desc = "Backlinks" })
+map("n", "<leader>gf", "<cmd>Obsidian follow_link<CR>", { desc = "Follow link" })
+map("n", "<leader>ch", "<cmd>Obsidian toggle_checkbox<CR>", { desc = "Toggle checkbox" })

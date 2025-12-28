@@ -11,6 +11,7 @@ require("telescope").setup({
 			"dist",
 			"build",
 			"%.lock",
+			"%.obsidian/",
 		},
 	},
 })

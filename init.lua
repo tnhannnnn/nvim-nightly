@@ -7,12 +7,7 @@ vim.pack.add({
 	{ src = "https://github.com/catppuccin/nvim", branch = "main" },
 })
 vim.cmd.colorscheme("catppuccin")
-require("plugins.neotree")
-require("plugins.format")
-require("plugins.telescope")
-require("plugins.completion")
-require("plugins.mini")
-require("plugins.obsidian")
+
 require("mason").setup({})
 vim.lsp.config("lua_ls", {
 	settings = {
@@ -76,8 +71,8 @@ vim.diagnostic.config({
 vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, {})
 vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-vim.keymap.set("n", "<leader>o", "<cmd>lopen<CR>", { silent = true })
-vim.keymap.set("n", "<leader>x", "<cmd>lclose<CR>", { silent = true })
+vim.keymap.set("n", "<leader>lo", "<cmd>lopen<CR>", { silent = true })
+vim.keymap.set("n", "<leader>lx", "<cmd>lclose<CR>", { silent = true })
 vim.api.nvim_create_autocmd("DiagnosticChanged", {
 	callback = function()
 		vim.diagnostic.setloclist({ open = false })
@@ -92,3 +87,10 @@ vim.o.statusline = table.concat({
 	"%l:%c ",
 	"%p%% ",
 })
+require("plugins.neotree")
+require("plugins.format")
+-- require("plugins.telescope")
+require("plugins.fzf")
+require("plugins.completion")
+require("plugins.mini")
+require("plugins.obsidian")
