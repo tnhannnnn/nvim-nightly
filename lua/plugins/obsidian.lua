@@ -5,15 +5,10 @@ local function set_rm_checkbox_hl()
 	vim.api.nvim_set_hl(0, "RMCheckboxProgress", { fg = "#94e2d5" })
 	vim.api.nvim_set_hl(0, "RMCheckboxDone", { fg = "#a6e3a1" })
 end
-
--- set ngay lần đầu
 set_rm_checkbox_hl()
-
--- set lại khi đổi theme
 vim.api.nvim_create_autocmd("ColorScheme", {
 	callback = set_rm_checkbox_hl,
 })
-
 vim.pack.add({
 	{
 		src = "https://github.com/obsidian-nvim/obsidian.nvim",
@@ -23,7 +18,6 @@ vim.pack.add({
 		src = "https://github.com/MeanderingProgrammer/render-markdown.nvim",
 	},
 })
-
 require("render-markdown").setup({
 	checkbox = {
 		enabled = true,
@@ -34,14 +28,12 @@ require("render-markdown").setup({
 				highlight = "RMCheckboxDeferred",
 				scope_highlight = nil,
 			},
-
 			important = {
 				raw = "[!]",
 				rendered = " ",
 				highlight = "RMCheckboxImportant",
 				scope_highlight = nil,
 			},
-
 			right_arrow = {
 				raw = "[>]",
 				rendered = " ",
@@ -51,6 +43,10 @@ require("render-markdown").setup({
 		},
 	},
 })
+-- ===== macOS-only: Obsidian.nvim =====
+if vim.loop.os_uname().sysname ~= "Darwin" then
+	return
+end
 require("obsidian").setup({
 	legacy_commands = false,
 	workspaces = {
@@ -62,22 +58,18 @@ require("obsidian").setup({
 	footer = {
 		enabled = false,
 	},
-
 	statusline = {
 		enabled = false,
 	},
-
 	ui = {
 		enable = false,
 		ignore_conceal_warn = true,
 	},
-
 	checkbox = {
 		enabled = true,
 		create_new = true,
 		order = { " ", "!", ">", "x" },
 	},
-
 	templates = {
 		folder = "templates",
 		date_format = "%Y-%m-%d",
@@ -97,9 +89,7 @@ require("obsidian").setup({
 		workdays_only = false,
 	},
 })
-
 local map = vim.keymap.set
-
 map("n", "<leader>on", "<cmd>Obsidian new_from_template<CR>", { desc = "New note" })
 map("n", "<leader>ot", "<cmd>Obsidian today<CR>", { desc = "Today" })
 map("n", "<leader>od", "<cmd>Obsidian dailies<CR>", { desc = "Daily" })
