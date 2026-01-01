@@ -6,7 +6,7 @@ require("conform").setup({
 		lua = { "stylua" },
 		--   python = { "isort", "black" },
 		--   rust = { "rustfmt", lsp_format = "fallback" },
-		--   javascript = { "prettierd", "prettier", stop_after_first = true },
+		typescriptreact = { "prettier", stop_after_first = true },
 	},
 	format_on_save = {
 		-- These options will be passed to conform.format()

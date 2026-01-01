@@ -27,21 +27,6 @@ vim.pack.add({
 require("render-markdown").setup({
 	checkbox = {
 		enabled = true,
-
-		unchecked = {
-			raw = "[ ]",
-			rendered = "󰄱 ",
-			highlight = "RMCheckboxTodo",
-			scope_highlight = nil,
-		},
-
-		checked = {
-			raw = "[x]",
-			rendered = " ",
-			highlight = "RMCheckboxDone",
-			scope_highlight = nil,
-		},
-
 		custom = {
 			tilde = {
 				raw = "[~]",
@@ -75,7 +60,7 @@ require("obsidian").setup({
 		},
 	},
 	footer = {
-		enabled = true,
+		enabled = false,
 	},
 
 	statusline = {
@@ -90,7 +75,7 @@ require("obsidian").setup({
 	checkbox = {
 		enabled = true,
 		create_new = true,
-		order = { " ", "~", "!", ">", "x" },
+		order = { " ", "!", ">", "x" },
 	},
 
 	templates = {
@@ -99,12 +84,10 @@ require("obsidian").setup({
 		time_format = "%H:%M",
 	},
 	note_id_func = function(title)
-		if title ~= nil and title ~= "" then
-			-- normalize title → filename
-			return title:gsub("%s+", "-"):gsub("[^%w%-]", ""):lower()
+		if title == nil then
+			return tostring(os.time())
 		end
-
-		return os.date("%Y%m%d%H%M%S")
+		return title:gsub(" ", "-"):gsub("\\[\\^A-Za-z0-9-\\]", ""):lower()
 	end,
 	daily_notes = {
 		folder = "daily",
@@ -117,9 +100,12 @@ require("obsidian").setup({
 
 local map = vim.keymap.set
 
-map("n", "<leader>on", "<cmd>Obsidian new<CR>", { desc = "New note" })
+map("n", "<leader>on", "<cmd>Obsidian new_from_template<CR>", { desc = "New note" })
 map("n", "<leader>ot", "<cmd>Obsidian today<CR>", { desc = "Today" })
 map("n", "<leader>od", "<cmd>Obsidian dailies<CR>", { desc = "Daily" })
-map("n", "<leader>oo", "<cmd>Obsidian quick_switch<CR>", { desc = "Open note" })
+map("n", "<leader>oq", "<cmd>Obsidian quick_switch<CR>", { desc = "Open note" })
+map("n", "<leader>ob", "<cmd>Obsidian backlinks<CR>", { desc = "Backlinks" })
+map("n", "<leader>os", "<cmd>Obsidian tags<CR>", { desc = "Search for tags" })
+map("n", "<leader>or", "<cmd>Obsidian rename<CR>", { desc = "Rename" })
 map("n", "<leader>gf", "<cmd>Obsidian follow_link<CR>", { desc = "Follow link" })
 map("n", "<leader>ch", "<cmd>Obsidian toggle_checkbox<CR>", { desc = "Toggle checkbox" })

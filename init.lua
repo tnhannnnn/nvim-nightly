@@ -5,9 +5,13 @@ vim.pack.add({
 	{ src = "https://github.com/mason-org/mason.nvim" },
 	{ src = "https://github.com/nvim-treesitter/nvim-treesitter", branch = "main" },
 	{ src = "https://github.com/catppuccin/nvim", branch = "main" },
+	{ src = "https://github.com/brenoprata10/nvim-highlight-colors" },
+	{ src = "https://github.com/rose-pine/neovim" },
 })
 vim.cmd.colorscheme("catppuccin")
-
+require("nvim-highlight-colors").setup({
+	enable_tailwind = true,
+})
 require("mason").setup({})
 vim.lsp.config("lua_ls", {
 	settings = {
@@ -34,7 +38,7 @@ vim.lsp.config("lua_ls", {
 	},
 })
 
-vim.lsp.enable({ "lua_ls", "clangd", "ts_ls" })
+vim.lsp.enable({ "lua_ls", "clangd", "ts_ls", "tailwindcss" })
 require("nvim-treesitter")
 	.install({
 		"lua",
@@ -68,7 +72,13 @@ vim.diagnostic.config({
 		},
 	},
 })
-vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+vim.keymap.set("n", "<leader>ca", function()
+	vim.lsp.buf.code_action({
+		filter = function(action)
+			return not action.disabled
+		end,
+	})
+end)
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, {})
 vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 vim.keymap.set("n", "<leader>lo", "<cmd>lopen<CR>", { silent = true })

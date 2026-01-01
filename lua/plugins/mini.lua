@@ -3,3 +3,5 @@ vim.pack.add({
 })
 require("mini.ai").setup()
 require("mini.surround").setup()
+require("mini.pick").setup()
+vim.ui.pick = require("mini.pick").pick
